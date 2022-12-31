@@ -1,0 +1,60 @@
+#patientSummaryRowDivId {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.patientSummaryCell {
+    width: 33%;
+    float: left;
+}
+
+.patientHistoryCell {
+    width: 45%;
+    float: left;
+}
+
+.patientSummaryDataCell {
+    padding-right: 25px;
+    overflow: auto;
+}
+
+.patientSummaryLabelCell {
+    float: left;
+}
+
+#patientSummaryMainDiv {
+    width: 60%;
+}
+
+#patientSummaryHeaderId {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+#addNewVisitBtnId {
+    margin-top: 10px;
+}
+
+.side-by-side {
+    width: 100%;
+    overflow: hidden;
+}
+
+.float-left {
+    float: left;
+}
+
+#addVisitSymptompsId {
+    margin-right: 20px;
+}
+
+#addNewVisitDivId{
+    margin-top: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    padding: 4px;
+}

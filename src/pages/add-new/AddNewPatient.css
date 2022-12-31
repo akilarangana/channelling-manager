@@ -1,0 +1,71 @@
+.formDiv {
+    padding: 21px;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    width: 70%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.innerForm {
+    width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}
+
+.formDiv1 input[type=text],
+select {
+    width: 100%;
+    padding: 8px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+ input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    margin: 4px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.showError {
+    border-color: #a94442 !important;
+    color: #a94442 !important;
+    margin-bottom: 15px;
+}
+
+.form-side-by-side{
+    float: left;
+    display: block;
+    width: 45%;
+    margin-right: 20px;
+    margin-bottom: 30px;
+}
+
+.full-width{
+    padding-bottom: 30px;
+}
+
+.form-text-full{
+    margin-right: 60px;
+    margin-bottom: 30px;
+}
+
+.full-width textarea {
+    font-size:20px;
+    width:100%;
+}
