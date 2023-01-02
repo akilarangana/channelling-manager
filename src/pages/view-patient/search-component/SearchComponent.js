@@ -8,6 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import configData from "../../../config.json";
 
 export function SearchCompoent({ onQuery }) {
 
@@ -15,12 +16,12 @@ export function SearchCompoent({ onQuery }) {
     const [patinetNames, setPatientNames] = React.useState();
 
     const fetchData = () => {
-        return axios.get("http://localhost:8080/patients/getNames")
+        return axios.get(configData.SERVER_URL +"/patients/getNames")
             .then((response) => setPatientNames(response.data));
     }
 
     const fetchPatientList = () => {
-        return axios.get("http://localhost:8080/patients/get?patientName=" + nameValue + "&&birthDay=" + birthDayValue + "&&tpNumber=" + tpNumberyValue)
+        return axios.get(configData.SERVER_URL +"/patients/get?patientName=" + nameValue + "&&birthDay=" + birthDayValue + "&&tpNumber=" + tpNumberyValue)
             .then((response) => {
                 console.log(response);
                 onQuery(response.data)

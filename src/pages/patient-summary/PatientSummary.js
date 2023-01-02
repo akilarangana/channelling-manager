@@ -7,6 +7,7 @@ import axios from "axios";
 import NavBarComponent from "../nav-bar/NavBarComponent";
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertProps } from '@mui/material/Alert';
+import configData from "../../config.json";
 
 export function PatientSummary() {
 
@@ -19,7 +20,7 @@ export function PatientSummary() {
     const [visits, setSVisits] = React.useState(null);
 
     const fetchData = () => {
-        return axios.get("http://localhost:8080/patients/getVisit?patientId=" + location.state.row.patientId)
+        return axios.get(configData.SERVER_URL +"/patients/getVisit?patientId=" + location.state.row.patientId)
             .then((response) => setSVisits(response.data));
     }
 
@@ -49,7 +50,7 @@ export function PatientSummary() {
         today = mm + '/' + dd + '/' + yyyy;
         if(symptomsValue && prescriptionsValue){
             try {
-                let res = await fetch("http://localhost:8080/patients/update", {
+                let res = await fetch(configData.SERVER_URL +"/patients/update", {
                     method: "POST",
                     headers: {
                         'Accept': 'application/json, text/plain',

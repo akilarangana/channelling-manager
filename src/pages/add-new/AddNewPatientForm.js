@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertProps } from '@mui/material/Alert';
+import configData from "../../config.json";
 
 class AddNewPatientForm extends Component {
     constructor(props) {
@@ -71,7 +72,7 @@ class AddNewPatientForm extends Component {
 
             today = mm + '/' + dd + '/' + yyyy;
             try {
-                let res = await fetch("http://localhost:8080/patients/create", {
+                let res = await fetch(configData.SERVER_URL +"/patients/create", {
                     method: "POST",
                     headers: {
                         'Accept': 'application/json, text/plain',
