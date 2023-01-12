@@ -5,6 +5,7 @@ import NavBarComponent from "../nav-bar/NavBarComponent";
 import { PersonAdd } from 'react-bootstrap-icons';
 import { Search } from 'react-bootstrap-icons';
 import { BuildingGear } from 'react-bootstrap-icons';
+import MedicationIcon from '@mui/icons-material/Medication';
 
 export function Home() {
 
@@ -16,6 +17,10 @@ export function Home() {
 
   const navigateSearchPatient = () => {
     navigate('/searchPatient');
+  };
+
+  const navigateToInventory = () => {
+    navigate('/inventory');
   };
 
   return (
@@ -56,14 +61,14 @@ export function Home() {
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="col-lg-6 col-xxl-4 mb-5" onClick={navigateToInventory}>
               <div class="card bg-light border-0 h-100">
                 <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                   <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
-                  <BuildingGear size={40} />
+                  <MedicationIcon size={70} />
                   </div>
-                  <h2 class="fs-4 fw-bold">Settings</h2>
-                  <p class="mb-0">You can update your details here</p>
+                  <h2 class="fs-4 fw-bold">Inventory Management</h2>
+                  <p class="mb-0">You can manage your all the drugs Inventory here. Please register all you drugs Inventory</p>
                 </div>
               </div>
             </div>

@@ -43,8 +43,6 @@ export function SearchCompoent({ onQuery }) {
     }
 
     const handleDoBChange = (e) => {
-        const { D, M, Y } = e;
-
         setBirthDayValue(e.$D + '/' + (e.$M + 1) + '/' + e.$y);
         setValue(e);
     }

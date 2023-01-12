@@ -8,6 +8,8 @@ import Home from "./pages/Home/Home";
 import { SearchCompoent } from "./pages/view-patient/search-component/SearchComponent";
 import { ViewPatient } from "./pages/view-patient/ViewPatient";
 import PatientSummary from "./pages/patient-summary/PatientSummary";
+import DrugDoseComponent from "./components/drug-dose-component/DrugDoseComponent";
+import InventoryManagement from "./pages/inventory/InventoryManagement";
 
 function App() { 
   const [user, setUser] = useState([]);
@@ -39,6 +41,7 @@ function App() {
           <Route path="/addNewPatient" element={<AddNewPatientForm />} />
           <Route path="/searchPatient" element={<ViewPatient />} />
           <Route path="/patientSummary" element={<PatientSummary />} />
+          <Route path="/inventory" element={<InventoryManagement />} />
         </Routes>
       </Router>
     </div>

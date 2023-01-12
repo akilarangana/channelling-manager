@@ -8,6 +8,10 @@ import NavBarComponent from "../nav-bar/NavBarComponent";
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import configData from "../../config.json";
+import AddVisitPrescriptionComponent from "./add-visit-prescription-component/AddVisitPrescriptionComponent";
+import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 export function PatientSummary() {
 
@@ -16,11 +20,12 @@ export function PatientSummary() {
 
     const [symptomsValue, setSymptomsValue] = React.useState(null);
     const [prescriptionsValue, setPrescriptionsValue] = React.useState(null);
+    const [openAddDrugDrawer, setOpenAddDrugDrawer] = React.useState(false);
 
     const [visits, setSVisits] = React.useState(null);
 
     const fetchData = () => {
-        return axios.get(configData.SERVER_URL +"/patients/getVisit?patientId=" + location.state.row.patientId)
+        return axios.get(configData.SERVER_URL + "/patients/getVisit?patientId=" + location.state.row.patientId)
             .then((response) => setSVisits(response.data));
     }
 
@@ -48,9 +53,9 @@ export function PatientSummary() {
         var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
         today = mm + '/' + dd + '/' + yyyy;
-        if(symptomsValue && prescriptionsValue){
+        if (symptomsValue && prescriptionsValue) {
             try {
-                let res = await fetch(configData.SERVER_URL +"/patients/update", {
+                let res = await fetch(configData.SERVER_URL + "/patients/update", {
                     method: "POST",
                     headers: {
                         'Accept': 'application/json, text/plain',
@@ -61,7 +66,7 @@ export function PatientSummary() {
                         visitDate: today,
                         symptoms: symptomsValue,
                         prescriptions: prescriptionsValue
-    
+
                     })
                 });
                 let resJson = await res.json();
@@ -75,31 +80,45 @@ export function PatientSummary() {
                 console.log(err);
             }
         }
-        else{
+        else {
             handleError(true);
         }
-
-        
-        
     }
 
     const [open, setOpen] = React.useState(false);
     const [openError, setOpenError] = React.useState(false);
 
-  const handleSuccess = () => {
-    setOpen(true);
-  };
+    const handleSuccess = () => {
+        setOpen(true);
+    };
 
-  const handleError = () => {
-    setOpenError(true);
-  };
+    const handleError = () => {
+        setOpenError(true);
+    };
 
-  const handleClose = () => {
-    setOpenError(false);
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpenError(false);
+        setOpen(false);
+    };
 
-  
+    const toggleAddNewDrugDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setOpenAddDrugDrawer(open);
+    };
+
+    const addNewDrugComp = () => (
+        <Box
+            sx={{ width: 950 }}
+            role="presentation"
+        >
+            <AddVisitPrescriptionComponent patientId={location.state.row.patientId} />
+        </Box>
+    );
+
+
+
     return (
         <div>
             <NavBarComponent />
@@ -109,28 +128,31 @@ export function PatientSummary() {
                 </div>
                 <div id="patientSummaryRowDivId" >
                     < div className="patientSummaryCell" >
+                        <label><b>Patient Id : </b></label> <label>{location.state.row.patientId}</label>
+                    </div >
+                    < div className="patientSummaryCell" >
                         <label><b>Name : </b></label> <label>{location.state.row.patientName}</label>
                     </div >
                     <div className="patientSummaryCell">
                         <label><b>Age : </b></label> <label>{location.state.row.age}</label>
                     </div>
-                    <div className="patientSummaryCell">
-                        <label><b>Date of Birth : </b></label> <label>{location.state.row.birthDay}</label>
-                    </div>
                 </div >
 
                 <div id="patientSummaryRowDivId">
+                    <div className="patientSummaryCell">
+                        <label><b>Date of Birth : </b></label> <label>{location.state.row.birthDay}</label>
+                    </div>
                     <div className="patientSummaryCell">
                         <label><b>Gender : </b></label> <label>{location.state.row.gender}</label>
                     </div>
                     <div className="patientSummaryCell">
                         <label><b>Phone Number : </b></label> <label>{location.state.row.phoneNumber}</label>
                     </div>
-                    <div className="patientSummaryCell">
-                        <label><b>Home Town : </b></label> <label>{location.state.row.homeTown}</label>
-                    </div>
                 </div>
                 <div id="patientSummaryRowDivId">
+                <div className="patientSummaryCell">
+                        <label><b>Home Town : </b></label> <label>{location.state.row.homeTown}</label>
+                    </div>
                     <div className="patientSummaryCell">
                         <label><b>Last Visited : </b></label> <label>{location.state.row.lastVisited}</label>
                     </div>
@@ -158,7 +180,18 @@ export function PatientSummary() {
                     </div>
                 </div>
                 <div id="addNewVisitBtnId">
-                    <input type="submit" value="Add New Visit" onClick={handleClick} />
+                    <Button variant="contained" onClick={toggleAddNewDrugDrawer(true)} id="add-drug-button">Add New Visit</Button>
+
+                    <div>
+                        <Drawer
+                            anchor="right"
+                            open={openAddDrugDrawer}
+                            onClose={toggleAddNewDrugDrawer(false)}
+                        >
+                            {addNewDrugComp()}
+                        </Drawer>
+                    </div>
+
                     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
                         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                             Patient Visit Updated Successfully!

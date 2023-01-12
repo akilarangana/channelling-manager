@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import configData from "../../config.json";
+import DrugDoseComponent from "../../components/drug-dose-component/DrugDoseComponent";
 
 class AddNewPatientForm extends Component {
     constructor(props) {
@@ -27,9 +28,9 @@ class AddNewPatientForm extends Component {
             symptoms: '',
             prescriptions: '',
             open: false,
-            formErrors: {}
+            formErrors: {},
+            prescriptionList : {}
         };
-
         this.initialState = this.state;
     }
 
@@ -63,6 +64,7 @@ class AddNewPatientForm extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(this.state.prescriptionList);
         if (this.handleFormValidation()) {
 
             var today = new Date();
@@ -72,7 +74,7 @@ class AddNewPatientForm extends Component {
 
             today = mm + '/' + dd + '/' + yyyy;
             try {
-                let res = await fetch(configData.SERVER_URL +"/patients/create", {
+                let res = await fetch(configData.SERVER_URL + "/patients/create", {
                     method: "POST",
                     headers: {
                         'Accept': 'application/json, text/plain',
@@ -92,8 +94,10 @@ class AddNewPatientForm extends Component {
                         visitData: {
                             visitDate: today,
                             symptoms: this.state.symptoms,
-                            prescriptions: this.state.prescriptions
+                            prescriptions: this.state.prescriptions,
+                            prescriptionList : this.state.prescriptionList.rows
                         }
+                        
                     })
                 });
                 let resJson = await res.json();
@@ -117,6 +121,10 @@ class AddNewPatientForm extends Component {
         this.setState({ open: false });
     };
 
+    callbackFunction = (childData) => {
+        this.setState({prescriptionList: childData})
+   }
+
     render() {
 
         const { nameErr, ageErr } = this.state.formErrors;
@@ -133,7 +141,7 @@ class AddNewPatientForm extends Component {
                                     <div className="form-side-by-side">
 
                                         <TextField id="outlined-basic" name="patientName" label="Name of the Patient"
-                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.patientName}/>
+                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.patientName} />
                                         {nameErr &&
                                             <div style={{ color: "red", paddingBottom: 10 }}>{nameErr}</div>
                                         }
@@ -144,7 +152,7 @@ class AddNewPatientForm extends Component {
 
 
                                         <TextField id="outlined-basic" name="age" label="Patient Age"
-                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.age}/>
+                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.age} />
                                         {ageErr &&
                                             <div style={{ color: "red", paddingBottom: 10 }}>{ageErr}</div>
                                         }
@@ -155,7 +163,7 @@ class AddNewPatientForm extends Component {
                                 <div className="full-width">
                                     <div className="form-side-by-side">
                                         <TextField id="outlined-basic" name="birthDay" label="Birth Day (DD/MM/YYYY)"
-                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.birthDay}/>
+                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.birthDay} />
                                     </div>
 
 
@@ -202,16 +210,17 @@ class AddNewPatientForm extends Component {
                                         variant="outlined" onChange={this.handleChange} fullWidth value={this.state.allergies} />
                                 </div>
 
-                                <div className="full-width">
-                                    <div className="form-side-by-side">
+                                <div className="form-text-full">
+                                    <div>
                                         <p><label htmlFor="symptoms">Symptoms</label></p>
-                                        <textarea name="symptoms" rows="4" onChange={this.handleChange} value={this.state.symptoms}></textarea>
+                                        <textarea name="symptoms" rows="4" cols="70" onChange={this.handleChange} value={this.state.symptoms}></textarea>
                                     </div>
 
-                                    <div className="form-side-by-side">
-                                        <p><label htmlFor="prescriptions">Prescriptions</label></p>
-                                        <textarea name="prescriptions" rows="4" onChange={this.handleChange} value={this.state.prescriptions}></textarea>
-                                    </div>
+
+                                </div>
+                                <div className="form-text-full">
+                                    <p><label htmlFor="prescriptions">Prescriptions</label></p>
+                                    <DrugDoseComponent parentCallback = {this.callbackFunction} />
                                 </div>
 
                             </div>

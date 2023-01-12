@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './AccordianComponent.css';
+import DrugDoseHistoryTableComponent from '../../../components/drug-dose-history-component/DrugDoseHistoryTableComponent';
 
 export default function SimpleAccordion(visits) {
 
@@ -28,15 +29,15 @@ export default function SimpleAccordion(visits) {
                         <Typography>
                             <div id="visitSummaryMainId">
                                 <div id="ptientSummaryCellId">
-                                    <h4>Symptoms</h4>
+                                    <h5>Symptoms</h5>
                                     <div>
                                         <label>{visit.symptoms}</label>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4>Prescriptions</h4>
+                                    <h5>Prescriptions</h5>
                                     <div>
-                                        {visit.prescriptions}
+                                        <DrugDoseHistoryTableComponent rows={visit.prescriptionList} />
                                     </div>
                                 </div>
                             </div>
