@@ -11,6 +11,12 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import configData from "../../config.json";
 import DrugDoseComponent from "../../components/drug-dose-component/DrugDoseComponent";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 
 class AddNewPatientForm extends Component {
     constructor(props) {
@@ -29,7 +35,8 @@ class AddNewPatientForm extends Component {
             prescriptions: '',
             open: false,
             formErrors: {},
-            prescriptionList : {}
+            prescriptionList: {},
+            patientId: ''
         };
         this.initialState = this.state;
     }
@@ -95,14 +102,15 @@ class AddNewPatientForm extends Component {
                             visitDate: today,
                             symptoms: this.state.symptoms,
                             prescriptions: this.state.prescriptions,
-                            prescriptionList : this.state.prescriptionList.rows
+                            prescriptionList: this.state.prescriptionList.rows
                         }
-                        
+
                     })
                 });
                 let resJson = await res.json();
                 if (res.status === 200) {
                     this.setState(this.initialState);
+                    this.setState({ patientId: resJson });
                     this.handleSuccess(true);
                 } else {
                     alert('Some error occured.');
@@ -122,8 +130,8 @@ class AddNewPatientForm extends Component {
     };
 
     callbackFunction = (childData) => {
-        this.setState({prescriptionList: childData})
-   }
+        this.setState({ prescriptionList: childData })
+    }
 
     render() {
 
@@ -220,17 +228,26 @@ class AddNewPatientForm extends Component {
                                 </div>
                                 <div className="form-text-full">
                                     <p><label htmlFor="prescriptions">Prescriptions</label></p>
-                                    <DrugDoseComponent parentCallback = {this.callbackFunction} />
+                                    <DrugDoseComponent parentCallback={this.callbackFunction} />
                                 </div>
 
                             </div>
 
                             <input type="submit" value="Submit" />
-                            <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-                                <Alert onClose={this.handleClose} severity="success" sx={{ width: '100%' }}>
-                                    Patient Added successfully!
-                                </Alert>
-                            </Snackbar>
+                            
+                            <Dialog open={this.state.open}>
+                                <DialogTitle id="alert-dialog-title">
+                                    {"Success"}
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                    Patient Added successfully! Patient ID is {this.state.patientId}
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={this.handleClose}>Ok</Button>
+                                </DialogActions>
+                            </Dialog>
                         </form>
                     </div>
                 </div >
