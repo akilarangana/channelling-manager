@@ -34,6 +34,12 @@ export default function SimpleAccordion(visits) {
                                         <label>{visit.symptoms}</label>
                                     </div>
                                 </div>
+                                <div id="ptientSummaryCellId">
+                                    <h5>Notes</h5>
+                                    <div>
+                                        <label>{visit.notes}</label>
+                                    </div>
+                                </div>
                                 <div>
                                     <h5>Prescriptions</h5>
                                     <div>

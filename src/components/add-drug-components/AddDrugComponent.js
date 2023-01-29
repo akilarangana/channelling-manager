@@ -6,12 +6,18 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import axios from "axios";
 
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+
 export function AddDNewDrugComponent() {
 
 
     const [open, setOpen] = React.useState(false);
     const [drugName, setDrugName] = React.useState();
     const [shortCode, setShortCode] = React.useState();
+    const [drugType, setDrugType] = React.useState(1);
     const [weightPerTablet, setWeightPerTablet] = React.useState();
 
     const handleNameChange = (e) => {
@@ -25,6 +31,11 @@ export function AddDNewDrugComponent() {
     const handleWeightChange = (e) => {
         const { value } = e.target;
         setWeightPerTablet(value);
+    }
+
+    const handleDrugTypeChange = (e) => {
+        const { value } = e.target;
+        setDrugType(value);
     }
 
     const handleSubmit = async (e) => {
@@ -47,6 +58,7 @@ export function AddDNewDrugComponent() {
                     drugName: drugName,
                     shortCode: shortCode,
                     weightPerTablet: weightPerTablet,
+                    drugType : drugType
 
                 })
             });
@@ -91,6 +103,28 @@ export function AddDNewDrugComponent() {
                             <TextField id="outlined-basic" name="weightPerTablet" label="Weight per Tablet"
                                 variant="outlined" onChange={handleWeightChange} fullWidth required value={weightPerTablet} />
                         </div>
+                        <div className="full-width">
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Drug Type</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={drugType}
+                                    required
+                                    label="Drug Type"
+                                    
+                                    onChange={handleDrugTypeChange}
+                                >
+                                    <MenuItem value={1}>Tablet</MenuItem>
+                                    <MenuItem value={2}>Syrup</MenuItem>
+                                    <MenuItem value={3}>Drop</MenuItem>
+                                    <MenuItem value={4}>Cream</MenuItem>
+                                    <MenuItem value={5}>Other</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+
+
                         <input type="submit" value="Submit" />
                         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
                             <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>

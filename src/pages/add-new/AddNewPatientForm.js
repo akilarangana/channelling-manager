@@ -36,7 +36,8 @@ class AddNewPatientForm extends Component {
             open: false,
             formErrors: {},
             prescriptionList: {},
-            patientId: ''
+            patientId: '',
+            notes: ''
         };
         this.initialState = this.state;
     }
@@ -67,6 +68,20 @@ class AddNewPatientForm extends Component {
     handleChange = (e) => {
         const { name, value } = e.target;
         this.setState({ [name]: value });
+    }
+
+    handleBirthdayChane = (e) => {
+        const { name, value } = e.target;
+        var res = value.split("/");
+        if (res.length == 1 && value.length == 4) {
+            this.setState({ [name]: value + "/" });
+        }
+        else if (res.length == 2 && value.length == 7) {
+            this.setState({ [name]: value + "/" });
+        }
+        else {
+            this.setState({ [name]: value });
+        }
     }
 
     handleSubmit = async (e) => {
@@ -102,7 +117,8 @@ class AddNewPatientForm extends Component {
                             visitDate: today,
                             symptoms: this.state.symptoms,
                             prescriptions: this.state.prescriptions,
-                            prescriptionList: this.state.prescriptionList.rows
+                            prescriptionList: this.state.prescriptionList.rows,
+                            notes: this.state.notes,
                         }
 
                     })
@@ -170,8 +186,8 @@ class AddNewPatientForm extends Component {
 
                                 <div className="full-width">
                                     <div className="form-side-by-side">
-                                        <TextField id="outlined-basic" name="birthDay" label="Birth Day (DD/MM/YYYY)"
-                                            variant="outlined" onChange={this.handleChange} fullWidth value={this.state.birthDay} />
+                                        <TextField id="outlined-basic" name="birthDay" label="Birth Day (YYYY/MM/DD)"
+                                            variant="outlined" onChange={this.handleBirthdayChane} fullWidth value={this.state.birthDay} />
                                     </div>
 
 
@@ -217,31 +233,37 @@ class AddNewPatientForm extends Component {
                                     <TextField id="outlined-basic" name="allergies" label="Allergies"
                                         variant="outlined" onChange={this.handleChange} fullWidth value={this.state.allergies} />
                                 </div>
+                                <div className="full-width">
+                                    <div className="form-side-by-side">
+                                        <div>
+                                            <p><label htmlFor="symptoms">Symptoms</label></p>
+                                            <textarea name="symptoms" rows="4" onChange={this.handleChange} value={this.state.symptoms}></textarea>
+                                        </div>
 
-                                <div className="form-text-full">
-                                    <div>
-                                        <p><label htmlFor="symptoms">Symptoms</label></p>
-                                        <textarea name="symptoms" rows="4" cols="70" onChange={this.handleChange} value={this.state.symptoms}></textarea>
                                     </div>
+                                    <div className="form-side-by-side">
+                                        <div>
+                                            <p><label htmlFor="symptoms">Notes</label></p>
+                                            <textarea name="symptoms" rows="4" onChange={this.handleChange} value={this.state.notes}></textarea>
+                                        </div>
 
-
+                                    </div>
                                 </div>
                                 <div className="form-text-full">
                                     <p><label htmlFor="prescriptions">Prescriptions</label></p>
                                     <DrugDoseComponent parentCallback={this.callbackFunction} />
                                 </div>
-
                             </div>
 
                             <input type="submit" value="Submit" />
-                            
+
                             <Dialog open={this.state.open}>
                                 <DialogTitle id="alert-dialog-title">
                                     {"Success"}
                                 </DialogTitle>
                                 <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                    Patient Added successfully! Patient ID is {this.state.patientId}
+                                        Patient Added successfully! Patient ID is {this.state.patientId}
                                     </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>

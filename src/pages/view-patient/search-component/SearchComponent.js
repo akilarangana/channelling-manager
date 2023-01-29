@@ -16,6 +16,7 @@ export function SearchCompoent({ onQuery }) {
     const [patinetNames, setPatientNames] = React.useState();
 
     const fetchData = () => {
+        console.log('fetch data called')
         return axios.get(configData.SERVER_URL +"/patients/getNames")
             .then((response) => setPatientNames(response.data));
     }
@@ -56,12 +57,10 @@ export function SearchCompoent({ onQuery }) {
         fetchPatientList();
     }
 
-
     return (
         <div>
             <div class="fieldBlock">
                 <Autocomplete
-                    disablePortal
                     id="combo-box-demo"
                     options={patinetNames}
                     sx={{ width: 300 }}

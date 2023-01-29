@@ -26,13 +26,12 @@ export function DrugDoseComponent( {parentCallback} ) {
 
     const [value, setValue] = React.useState(null);
     const [drugNames, setDrugNames] = React.useState();
-
     const [qty, setQty] = React.useState(null);
     const [times, setTimes] = React.useState(null);
     const [numOfDays, setNumOfDays] = React.useState(null);
     const [drugName, setDrugName] = React.useState(null);
-
     const [rows, setRows] = React.useState([]);
+    const [isTablet, setIsTablet] = React.useState(true);
 
     const fetchData = () => {
         return axios.get(configData.SERVER_URL +"/drugs/getNames")
@@ -51,10 +50,12 @@ export function DrugDoseComponent( {parentCallback} ) {
     }
 
     const handleNameChange = (event, newInputValue) => {
+        setIsTablet(newInputValue.drugType == 1)
         setDrugName(newInputValue);
     }
 
     const handleTimesChange = (e) => {
+        console.log(e);
         const { value } = e.target;
         setTimes(value);
     }
@@ -92,13 +93,11 @@ export function DrugDoseComponent( {parentCallback} ) {
             <div>
                 <div class="fieldBlock">
                     <Autocomplete
-                        disablePortal
                         id="combo-box-demo"
                         options={drugNames}
                         sx={{ width: 250 }}
                         variant="standard"
                         onChange={handleNameChange}
-                        value={drugName}
                         renderInput={(params) => <TextField {...params} label="Drug" />}
                     />
                 </div>
@@ -106,7 +105,7 @@ export function DrugDoseComponent( {parentCallback} ) {
                 <div class="fieldBlock">
                     <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Times</InputLabel>
+                            <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -114,17 +113,18 @@ export function DrugDoseComponent( {parentCallback} ) {
                                 label="Times"
                                 onChange={handleTimesChange}
                             >
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
+                                <MenuItem value={"M"}>M</MenuItem>
+                                <MenuItem value={"BD"}>BD</MenuItem>
+                                <MenuItem value={"TDS"}>TDS</MenuItem>
+                                <MenuItem value={"QDS"}>QDS</MenuItem>
+                                <MenuItem value={"N"}>N</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
 
                 </div>
 
-                <div class="fieldBlock">
+                {isTablet&& <div class="fieldBlock">
                     <Box sx={{ minWidth: 100 }}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Qty</InputLabel>
@@ -135,15 +135,23 @@ export function DrugDoseComponent( {parentCallback} ) {
                                 label="Qty"
                                 onChange={handleQtyChange}
                             >
-                                <MenuItem value={1 / 2}>1/2</MenuItem>
+                                <MenuItem value={0.25}>1/4</MenuItem>
+                                <MenuItem value={0.5}>1/2</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={1.5}>1 1/2</MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
+                </div> }
 
-                </div>
+                {!isTablet&& <div class="fieldBlock">
+                <Box sx={{ width: 100 }}>
+                <TextField id="outlined-basic" name="qty" label="Qty"
+                                            variant="outlined" onChange={handleQtyChange}  value={qty} />
+                </Box>
+                
+                </div> }
 
                 <div class="fieldBlock">
                     <Box sx={{ minWidth: 150 }}>
@@ -156,13 +164,17 @@ export function DrugDoseComponent( {parentCallback} ) {
                                 label="Num of Days"
                                 onChange={handleNumOfDaysChange}
                             >
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                                <MenuItem value={6}>6</MenuItem>
-                                <MenuItem value={7}>7</MenuItem>
+                                <MenuItem value={"1"}>1</MenuItem>
+                                <MenuItem value={"2"}>2</MenuItem>
+                                <MenuItem value={"3"}>3</MenuItem>
+                                <MenuItem value={"4"}>4</MenuItem>
+                                <MenuItem value={"5"}>5</MenuItem>
+                                <MenuItem value={"6"}>6</MenuItem>
+                                <MenuItem value={"7"}>7</MenuItem>
+                                <MenuItem value={"2 Weeks"}>2 Weeks</MenuItem>
+                                <MenuItem value={"1 Month"}>1 Month</MenuItem>
+                                <MenuItem value={"2 Months"}>2 Months</MenuItem>
+                                <MenuItem value={"3 Months"}>3 Months</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>

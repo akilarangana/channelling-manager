@@ -12,10 +12,13 @@ import AddVisitPrescriptionComponent from "./add-visit-prescription-component/Ad
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import EditIcon from '@mui/icons-material/Edit';
+import EditPatientComponent from "./edit-patient-component/EditPatientComponent";
 
 export function PatientSummary() {
 
     const [isShown, setIsShown] = useState(false);
+    const [openPatientUpdateDrawer, setOpenPatientUpdateDrawer] = React.useState(false);
     const location = useLocation();
 
     const [symptomsValue, setSymptomsValue] = React.useState(null);
@@ -117,14 +120,43 @@ export function PatientSummary() {
         </Box>
     );
 
+    const toggleUpdatePatientDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setOpenPatientUpdateDrawer(open);
+    };
+
+    const showEdiitPatientDrawer = () => (
+        <Box
+            sx={{ width: 950 }}
+            role="presentation"
+        >
+            <EditPatientComponent patient={location.state.row} />
+        </Box>
+    );
 
 
     return (
         <div>
             <NavBarComponent />
+
+            <Drawer
+                anchor="right"
+                open={openPatientUpdateDrawer}
+                onClose={toggleUpdatePatientDrawer(false)}
+            >
+                {showEdiitPatientDrawer()}
+            </Drawer>
+
             <div id="patientSummaryMainDiv" className="formDiv" >
                 <div id="patientSummaryHeaderId">
                     <h2>Patient Summary</h2>
+                </div>
+                <div>
+                    <Button variant="outlined" onClick={toggleUpdatePatientDrawer(true)}  startIcon={<EditIcon />}>
+                        Edit Patient
+                    </Button>
                 </div>
                 <div id="patientSummaryRowDivId" >
                     < div className="patientSummaryCell" >
@@ -150,14 +182,14 @@ export function PatientSummary() {
                     </div>
                 </div>
                 <div id="patientSummaryRowDivId">
-                <div className="patientSummaryCell">
+                    <div className="patientSummaryCell">
                         <label><b>Home Town : </b></label> <label>{location.state.row.homeTown}</label>
                     </div>
                     <div className="patientSummaryCell">
                         <label><b>Last Visited : </b></label> <label>{location.state.row.lastVisited}</label>
                     </div>
                     <div className="patientSummaryCell">
-                        <label><b>Allergies : </b></label> <label>{location.state.row.allergies}</label>
+                        <label><b>Allergies : </b></label> <label style={{ color: 'red' }}>{location.state.row.allergies}</label>
                     </div>
                 </div>
 

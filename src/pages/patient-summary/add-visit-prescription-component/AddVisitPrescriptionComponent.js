@@ -11,6 +11,7 @@ export function AddVisitPrescriptionComponent(patientId) {
 
 
     const [symptomsValue, setSymptomsValue] = React.useState(null);
+    const [notesValue, setNotesValue] = React.useState(null);
     const [prescriptions, setPrescriptions] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [openError, setOpenError] = React.useState(false);
@@ -22,6 +23,11 @@ export function AddVisitPrescriptionComponent(patientId) {
     const handleSymptomsChange = (e) => {
         const { value } = e.target;
         setSymptomsValue(value);
+    }
+
+    const handleNotesChange = (e) => {
+        const { value } = e.target;
+        setNotesValue(value);
     }
 
     const handleSubmit = async (e) => {
@@ -43,8 +49,8 @@ export function AddVisitPrescriptionComponent(patientId) {
                         patientId: patientId.patientId,
                         visitDate: today,
                         symptoms: symptomsValue,
+                        notes : notesValue,
                         prescriptionList: prescriptions.rows
-
                     })
                 });
                 let resJson = await res.json();
@@ -80,13 +86,20 @@ export function AddVisitPrescriptionComponent(patientId) {
         <div className="drawerFormvisitDataDiv">
             <h3 style={{ textAlign: "center" }} >Add Visit Data</ h3>
             <div className="innerFormAddVisitData">
-                <div className="form-text-full">
-                    <div>
-                        <p><label htmlFor="symptoms">Symptoms</label></p>
-                        <textarea name="symptoms" rows="4" cols="50" onChange={handleSymptomsChange} ></textarea>
+                <div className="full-width">
+                    <div className="form-side-by-side">
+                        <div>
+                            <p><label htmlFor="symptoms">Symptoms</label></p>
+                            <textarea name="symptoms" rows="4" cols="50" onChange={handleSymptomsChange} ></textarea>
+                        </div>
                     </div>
 
-
+                    <div className="form-side-by-side">
+                        <div>
+                            <p><label htmlFor="notes">Notes</label></p>
+                            <textarea name="notes" rows="4" cols="50" onChange={handleNotesChange} ></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div className="form-text-full">
                     <p><label htmlFor="prescriptions">Prescriptions</label></p>
