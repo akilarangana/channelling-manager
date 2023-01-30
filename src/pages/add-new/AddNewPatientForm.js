@@ -243,8 +243,8 @@ class AddNewPatientForm extends Component {
                                     </div>
                                     <div className="form-side-by-side">
                                         <div>
-                                            <p><label htmlFor="symptoms">Notes</label></p>
-                                            <textarea name="symptoms" rows="4" onChange={this.handleChange} value={this.state.notes}></textarea>
+                                            <p><label htmlFor="notes">Notes</label></p>
+                                            <textarea name="notes" rows="4" onChange={this.handleChange} value={this.state.notes}></textarea>
                                         </div>
 
                                     </div>
