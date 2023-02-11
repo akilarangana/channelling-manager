@@ -1,3 +1,3 @@
 {
-  "SERVER_URL": "https://akilasithum.com:8080/channelling-manager"
+  "SERVER_URL": "https://ec2-43-205-118-153.ap-south-1.compute.amazonaws.com:8080/channelling-manager"
 }
