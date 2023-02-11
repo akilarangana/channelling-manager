@@ -18,7 +18,7 @@ export function AddDDrugToInventoryComponent() {
     const [expiryDate, setExpiryDate] = React.useState();
 
     const fetchData = () => {
-        return axios.get(configData.SERVER_URL + "/drugs/getNames")
+        return axios.get(configData.SERVER_URL + "/drugs/getnames")
             .then((response) => setDrugNames(response.data));
     }
 

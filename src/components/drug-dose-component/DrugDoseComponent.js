@@ -34,7 +34,7 @@ export function DrugDoseComponent( {parentCallback} ) {
     const [isTablet, setIsTablet] = React.useState(true);
 
     const fetchData = () => {
-        return axios.get(configData.SERVER_URL +"/drugs/getNames")
+        return axios.get(configData.SERVER_URL +"/drugs/getnames")
             .then((response) => {
                 setDrugNames(response.data)
                 console.log(response.data)

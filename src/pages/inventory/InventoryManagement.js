@@ -28,7 +28,7 @@ export function InventoryManagement() {
     const [openAddDrugToInventoryDrawer, setOpenAddDrugToInventoryDrawer] = React.useState(false);
 
     const fetchData = () => {
-        return axios.get(configData.SERVER_URL +"/drugs/getNames")
+        return axios.get(configData.SERVER_URL +"/drugs/getnames")
             .then((response) => setDrugNames(response.data));
     }
     
